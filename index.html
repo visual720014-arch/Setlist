@@ -458,10 +458,11 @@
       );
     }
     if (query) {
-      songs = songs.filter(s =>
-        s.name.toLowerCase().includes(query) ||
-        s.artist.toLowerCase().includes(query)
-      );
+      const terms = query.split(/\s+/).filter(Boolean);
+      songs = songs.filter(s => {
+        const haystack = (s.name + " " + s.artist).toLowerCase();
+        return terms.every(t => haystack.includes(t));
+      });
     }
 
     document.getElementById("count").textContent = `${songs.length} 首`;
