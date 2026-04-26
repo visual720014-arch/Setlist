@@ -285,7 +285,7 @@
 <body>
 
 <header>
-  <div class="site-title">SETLIST<span>.</span></div>
+  <div class="site-title">Jesper SONGLIST<span>.</span></div>
   <div class="meta">
     <div id="last-updated">載入中...</div>
     <div>Powered by Google Sheets</div>
@@ -308,7 +308,7 @@
   <div class="state-box" id="state-box" style="display:none"></div>
 </main>
 
-<footer>SETLIST — 資料來源：Google Sheets</footer>
+<footer>SONGLIST — 資料來源：Google Sheets</footer>
 
 <script>
   const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTh7Ux4nLUBNn021h_pxndR5tSFLnTJ9pVGYjs7yR4LbOiOuABpcohdD1CCFa-zLaWzbeJ1G6as5IGw/pub?gid=0&single=true&output=csv";
@@ -490,7 +490,7 @@
 
     list.querySelectorAll(".copy-btn").forEach(btn => {
       btn.addEventListener("click", () => {
-        const text = `${btn.dataset.name} - ${btn.dataset.artist}`;
+        const text = `${btn.dataset.name} ${btn.dataset.artist}`;
         navigator.clipboard.writeText(text).then(() => {
           btn.textContent = "✓ 已複製";
           btn.classList.add("copied");
