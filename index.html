@@ -274,8 +274,10 @@
   @media (max-width: 600px) {
     header, .search-row, .filters, main, footer { padding-left: 20px; padding-right: 20px; }
     .filter-row { grid-template-columns: 1fr; gap: 6px; }
-    .song-item { grid-template-columns: 28px 1fr; gap: 10px; }
-    .song-tags { display: none; }
+    .song-item { grid-template-columns: 28px 1fr auto; gap: 8px; }
+    .song-tags { flex-direction: column; align-items: flex-end; max-width: 80px; }
+    .song-tag { display: none; }
+    .copy-btn { font-size: 0.7rem; padding: 5px 10px; }
     .meta { display: none; }
   }
 </style>
