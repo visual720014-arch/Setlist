@@ -227,6 +227,21 @@
     white-space: nowrap;
   }
 
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { border-color: #4caf50; color: #4caf50; }
+
   .state-box {
     padding: 80px 40px;
     text-align: center;
@@ -465,9 +480,24 @@
         </div>
         <div class="song-tags">
           ${s.tags.slice(0, 4).map(t => `<span class="song-tag">${escapeHTML(t)}</span>`).join("")}
+          <button class="copy-btn" data-name="${escapeHTML(s.name)}" data-artist="${escapeHTML(s.artist)}">複製</button>
         </div>
       </li>
     `).join("");
+
+    list.querySelectorAll(".copy-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const text = `${btn.dataset.name} - ${btn.dataset.artist}`;
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = "✓ 已複製";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = "複製";
+            btn.classList.remove("copied");
+          }, 2000);
+        });
+      });
+    });
   }
 
   function escapeHTML(s) {
