@@ -13,8 +13,9 @@
     --border: #272727;
     --text: #e8e8e8;
     --muted: #666;
+    --muted2: #999;
     --accent: #c8f060;
-    --accent-dim: rgba(200, 240, 96, 0.08);
+    --accent-dim: rgba(200, 240, 96, 0.1);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,9 +28,8 @@
     min-height: 100vh;
   }
 
-  /* ── Header ── */
   header {
-    padding: 56px 40px 40px;
+    padding: 56px 40px 32px;
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: flex-end;
@@ -46,9 +46,7 @@
     color: #fff;
   }
 
-  .site-title span {
-    color: var(--accent);
-  }
+  .site-title span { color: var(--accent); }
 
   .meta {
     font-family: 'IBM Plex Mono', monospace;
@@ -58,25 +56,24 @@
     line-height: 1.8;
   }
 
-  /* ── Controls ── */
-  .controls {
-    padding: 20px 40px;
+  .search-row {
+    padding: 18px 40px;
     display: flex;
-    gap: 12px;
+    gap: 14px;
     align-items: center;
-    flex-wrap: wrap;
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
-    background: rgba(13,13,13,0.95);
-    backdrop-filter: blur(8px);
+    background: rgba(13,13,13,0.96);
+    backdrop-filter: blur(10px);
     z-index: 10;
+    flex-wrap: wrap;
   }
 
   .search-wrap {
     flex: 1;
     min-width: 200px;
-    max-width: 320px;
+    max-width: 360px;
     position: relative;
   }
 
@@ -86,55 +83,36 @@
     border: 1px solid var(--border);
     border-radius: 6px;
     color: var(--text);
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: inherit;
     font-size: 0.85rem;
     padding: 9px 14px 9px 36px;
     outline: none;
     transition: border-color 0.2s;
   }
 
-  .search-wrap input:focus {
-    border-color: var(--accent);
-  }
+  .search-wrap input:focus { border-color: var(--accent); }
 
   .search-icon {
     position: absolute;
-    left: 12px;
-    top: 50%;
+    left: 12px; top: 50%;
     transform: translateY(-50%);
     color: var(--muted);
     font-size: 0.85rem;
   }
 
-  .filter-group {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    background: var(--surface);
+  .clear-btn {
+    background: transparent;
     border: 1px solid var(--border);
-    border-radius: 20px;
-    color: var(--muted);
-    font-family: 'Noto Sans TC', sans-serif;
+    border-radius: 6px;
+    color: var(--muted2);
+    font-family: inherit;
     font-size: 0.78rem;
-    padding: 6px 14px;
+    padding: 7px 14px;
     cursor: pointer;
     transition: all 0.15s;
-    white-space: nowrap;
   }
-
-  .filter-btn:hover {
-    border-color: #444;
-    color: var(--text);
-  }
-
-  .filter-btn.active {
-    background: var(--accent-dim);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
+  .clear-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .clear-btn:disabled { opacity: 0.3; cursor: default; }
 
   .count {
     font-family: 'IBM Plex Mono', monospace;
@@ -143,30 +121,70 @@
     margin-left: auto;
   }
 
-  /* ── Song List ── */
-  main {
-    padding: 0 40px 80px;
+  .filters {
+    padding: 20px 40px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
-  .song-list {
-    list-style: none;
+  .filter-row {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 16px;
+    align-items: start;
   }
+
+  .filter-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-top: 6px;
+  }
+
+  .filter-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    color: var(--muted2);
+    font-family: inherit;
+    font-size: 0.78rem;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .filter-btn:hover { border-color: #444; color: var(--text); }
+  .filter-btn.active {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  main { padding: 8px 40px 80px; }
+  .song-list { list-style: none; }
 
   .song-item {
     display: grid;
     grid-template-columns: 40px 1fr auto;
     align-items: center;
     gap: 16px;
-    padding: 16px 0;
+    padding: 14px 0;
     border-bottom: 1px solid var(--border);
     transition: background 0.15s;
-    cursor: default;
   }
-
   .song-item:hover {
     background: var(--surface);
     margin: 0 -16px;
-    padding: 16px 16px;
+    padding: 14px 16px;
     border-radius: 6px;
   }
 
@@ -177,11 +195,8 @@
     text-align: right;
   }
 
-  .song-info {}
-
   .song-name {
     font-size: 0.95rem;
-    font-weight: 400;
     color: var(--text);
     margin-bottom: 3px;
   }
@@ -191,47 +206,32 @@
     color: var(--muted);
   }
 
-  .song-right {
+  .song-tags {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 5px;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 320px;
   }
 
   .song-tag {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     font-family: 'IBM Plex Mono', monospace;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 3px;
-    padding: 2px 7px;
-    color: var(--muted);
+    padding: 2px 6px;
+    color: var(--muted2);
     white-space: nowrap;
   }
 
-  .song-duration {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-  }
-
-  /* ── States ── */
   .state-box {
     padding: 80px 40px;
     text-align: center;
     color: var(--muted);
   }
-
-  .state-box .icon {
-    font-size: 2.5rem;
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  .state-box p {
-    font-size: 0.85rem;
-    line-height: 1.7;
-  }
+  .state-box .icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+  .state-box p { font-size: 0.85rem; line-height: 1.7; }
 
   .retry-btn {
     margin-top: 16px;
@@ -239,16 +239,13 @@
     border: 1px solid var(--border);
     border-radius: 6px;
     color: var(--text);
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: inherit;
     font-size: 0.82rem;
     padding: 8px 20px;
     cursor: pointer;
-    transition: border-color 0.2s;
   }
+  .retry-btn:hover { border-color: var(--accent); }
 
-  .retry-btn:hover { border-color: #444; }
-
-  /* ── Footer ── */
   footer {
     border-top: 1px solid var(--border);
     padding: 20px 40px;
@@ -258,8 +255,10 @@
   }
 
   @media (max-width: 600px) {
-    header, .controls, main, footer { padding-left: 20px; padding-right: 20px; }
-    .song-item { grid-template-columns: 28px 1fr auto; gap: 10px; }
+    header, .search-row, .filters, main, footer { padding-left: 20px; padding-right: 20px; }
+    .filter-row { grid-template-columns: 1fr; gap: 6px; }
+    .song-item { grid-template-columns: 28px 1fr; gap: 10px; }
+    .song-tags { display: none; }
     .meta { display: none; }
   }
 </style>
@@ -274,16 +273,16 @@
   </div>
 </header>
 
-<div class="controls">
+<div class="search-row">
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
     <input type="text" id="search" placeholder="搜尋歌名、演出者...">
   </div>
-  <div class="filter-group" id="filters">
-    <button class="filter-btn active" data-cat="all">全部</button>
-  </div>
+  <button class="clear-btn" id="clear-btn" disabled>清除篩選</button>
   <div class="count" id="count">— 首</div>
 </div>
+
+<div class="filters" id="filters"></div>
 
 <main>
   <ul class="song-list" id="song-list"></ul>
@@ -293,43 +292,65 @@
 <footer>SETLIST — 資料來源：Google Sheets</footer>
 
 <script>
-  // 你的 Google Sheets 發布網址（已設定好）
   const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTh7Ux4nLUBNn021h_pxndR5tSFLnTJ9pVGYjs7yR4LbOiOuABpcohdD1CCFa-zLaWzbeJ1G6as5IGw/pub?gid=0&single=true&output=csv";
 
   let allSongs = [];
-  let activeCategory = "all";
+  let tagGroups = {};
+  let activeTags = new Set();
 
   async function loadSongs() {
     showState("⏳", "載入歌單中...", false);
     try {
-      const res = await fetch(CSV_URL);
+      const res = await fetch(CSV_URL + "&t=" + Date.now());
       if (!res.ok) throw new Error("fetch failed");
       const text = await res.text();
-
       const rows = parseCSV(text);
       if (rows.length < 2) throw new Error("empty");
-      const headers = rows[0];
-      allSongs = rows.slice(1).map(row => {
-        const obj = {};
-        headers.forEach((h, i) => { obj[h.trim()] = (row[i] || "").trim(); });
-        // 欄位對應（你的試算表欄位名稱）
-        return {
-          歌名: obj["歌曲名稱"] || obj["歌名"] || "",
-          演出者: obj["歌手"] || obj["演出者"] || "",
-          分類: obj["語種"] || obj["分類"] || "",
-          時長: obj["時長"] || "",
-          備註: obj["備註"] || "",
-        };
-      }).filter(s => s["歌名"]);
 
-      document.getElementById("last-updated").textContent = `更新：${new Date().toLocaleDateString("zh-TW")}`;
+      const headers = rows[0].map(h => h.trim());
+      const songs = [];
+      const lookup = {};
+
+      rows.slice(1).forEach(row => {
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = (row[i] || "").trim(); });
+
+        const songName = obj["歌曲名稱"] || obj["歌名"] || "";
+        if (songName) {
+          const tagStr = obj["標籤"] || "";
+          const tags = tagStr.split(/[,，、]/).map(t => t.trim()).filter(Boolean);
+          const lang = obj["語種"] || "";
+          const artist = obj["歌手"] || obj["演出者"] || "";
+          if (lang && !tags.includes(lang)) tags.push(lang);
+          if (artist && !tags.includes(artist)) tags.push(artist);
+
+          songs.push({ name: songName, artist: artist, tags: tags });
+        }
+
+        const tagItem = obj["分類項目"] || "";
+        const tagGroup = obj["分類群組"] || "";
+        if (tagItem && tagGroup) {
+          lookup[tagItem] = tagGroup;
+        }
+      });
+
+      allSongs = songs;
+
+      tagGroups = {};
+      Object.entries(lookup).forEach(([tag, group]) => {
+        if (!tagGroups[group]) tagGroups[group] = [];
+        tagGroups[group].push(tag);
+      });
+
+      document.getElementById("last-updated").textContent =
+        `更新：${new Date().toLocaleDateString("zh-TW")}`;
+
       buildFilters();
       render();
     } catch (e) {
       showState("⚠️",
-        `無法載入歌單<br><small style="font-size:0.8em">請確認試算表已「發布到網路」<br>（檔案 → 共用 → 發布到網路 → CSV → 發布）</small>`,
-        true
-      );
+        `無法載入歌單<br><small style="font-size:0.8em">請確認試算表已「發布到網路」</small>`,
+        true);
     }
   }
 
@@ -354,37 +375,73 @@
   }
 
   function buildFilters() {
-    const cats = [...new Set(allSongs.map(s => s["分類"]).filter(Boolean))];
-    const group = document.getElementById("filters");
-    group.innerHTML = `<button class="filter-btn active" data-cat="all">全部</button>`;
-    cats.forEach(cat => {
-      const btn = document.createElement("button");
-      btn.className = "filter-btn";
-      btn.dataset.cat = cat;
-      btn.textContent = cat;
-      group.appendChild(btn);
-    });
-    group.querySelectorAll(".filter-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        activeCategory = btn.dataset.cat;
-        group.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        render();
+    const container = document.getElementById("filters");
+    container.innerHTML = "";
+
+    const order = ["分類", "風格", "語言", "歌手", "其他"];
+    const allGroups = Object.keys(tagGroups);
+    const orderedGroups = [
+      ...order.filter(g => allGroups.includes(g)),
+      ...allGroups.filter(g => !order.includes(g))
+    ];
+
+    if (orderedGroups.length === 0) {
+      container.style.display = "none";
+      return;
+    }
+
+    orderedGroups.forEach(group => {
+      const row = document.createElement("div");
+      row.className = "filter-row";
+
+      const label = document.createElement("div");
+      label.className = "filter-label";
+      label.textContent = group;
+
+      const tagBox = document.createElement("div");
+      tagBox.className = "filter-tags";
+      tagGroups[group].forEach(tag => {
+        const btn = document.createElement("button");
+        btn.className = "filter-btn";
+        btn.textContent = tag;
+        btn.dataset.tag = tag;
+        btn.addEventListener("click", () => toggleTag(tag));
+        tagBox.appendChild(btn);
       });
+
+      row.appendChild(label);
+      row.appendChild(tagBox);
+      container.appendChild(row);
     });
   }
 
+  function toggleTag(tag) {
+    if (activeTags.has(tag)) activeTags.delete(tag);
+    else activeTags.add(tag);
+    updateFilterUI();
+    render();
+  }
+
+  function updateFilterUI() {
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.classList.toggle("active", activeTags.has(btn.dataset.tag));
+    });
+    document.getElementById("clear-btn").disabled = activeTags.size === 0;
+  }
+
   function render() {
-    const query = document.getElementById("search").value.toLowerCase();
+    const query = document.getElementById("search").value.toLowerCase().trim();
     let songs = allSongs;
 
-    if (activeCategory !== "all") {
-      songs = songs.filter(s => s["分類"] === activeCategory);
+    if (activeTags.size > 0) {
+      songs = songs.filter(s =>
+        [...activeTags].every(t => s.tags.includes(t))
+      );
     }
     if (query) {
       songs = songs.filter(s =>
-        (s["歌名"] || "").toLowerCase().includes(query) ||
-        (s["演出者"] || "").toLowerCase().includes(query)
+        s.name.toLowerCase().includes(query) ||
+        s.artist.toLowerCase().includes(query)
       );
     }
 
@@ -400,16 +457,20 @@
     list.innerHTML = songs.map((s, i) => `
       <li class="song-item">
         <span class="song-num">${String(i + 1).padStart(2, "0")}</span>
-        <div class="song-info">
-          <div class="song-name">${s["歌名"] || ""}</div>
-          <div class="song-artist">${s["演出者"] || ""}</div>
+        <div>
+          <div class="song-name">${escapeHTML(s.name)}</div>
+          <div class="song-artist">${escapeHTML(s.artist)}</div>
         </div>
-        <div class="song-right">
-          ${s["分類"] ? `<span class="song-tag">${s["分類"]}</span>` : ""}
-          ${s["時長"] ? `<span class="song-duration">${s["時長"]}</span>` : ""}
+        <div class="song-tags">
+          ${s.tags.slice(0, 4).map(t => `<span class="song-tag">${escapeHTML(t)}</span>`).join("")}
         </div>
       </li>
     `).join("");
+  }
+
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
   }
 
   function showState(icon, msg, showRetry) {
@@ -428,6 +489,11 @@
   }
 
   document.getElementById("search").addEventListener("input", render);
+  document.getElementById("clear-btn").addEventListener("click", () => {
+    activeTags.clear();
+    updateFilterUI();
+    render();
+  });
 
   loadSongs();
 </script>
